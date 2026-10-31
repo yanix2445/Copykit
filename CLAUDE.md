@@ -21,7 +21,18 @@ Swift 6), SwiftUI, SwiftData, Swift Testing, XCUITest. Cible macOS 27.0.
   désaccord entre deux sources, Apple a raison.
 - **Réglages du projet** : passer par les outils MCP Xcode
   (`UpdateTargetBuildSetting`, `AddEntitlement`, `AddInfoPlist`…), ne pas
-  éditer `project.pbxproj` à la main.
+  éditer `project.pbxproj` à la main. Seule exception : référencer un dossier
+  ou un fichier racine (règle suivante), qu'aucun outil MCP ne sait faire.
+- **Tout doit être visible dans Xcode** :
+  - `CopyKit/`, `CopyKitTests/`, `CopyKitUITests/` et `docs/` sont des
+    dossiers synchronisés : tout ce qui est créé dedans apparaît tout seul ;
+  - un **nouveau dossier à la racine** du dépôt est déclaré, dès sa création,
+    comme dossier synchronisé (`PBXFileSystemSynchronizedRootGroup`) **sans
+    cible** dans le groupe principal ;
+  - un **nouveau fichier à la racine** est ajouté comme simple référence
+    (`PBXFileReference`) sans cible ;
+  - un package local dans `Packages/` apparaît quand on le relie au projet ;
+  - après chaque modification, vérifier avec `plutil -lint` et un build.
 
 ## Commandes
 
