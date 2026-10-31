@@ -15,7 +15,7 @@ n'a été lancé pour coder.
 | [04-plugin-apple-xcode.md](04-plugin-apple-xcode.md) | Le plugin **officiel Apple** `xcode-integration` livré avec Xcode 27.1 (15 skills + serveur MCP Xcode), et l'analyse des plugins de Paul Hudson |
 | [05-architectures.md](05-architectures.md) | MVC, MVVM, MV, TCA, VIPER, Clean Architecture, organisation par feature : ce qu'Apple conseille et la recommandation pour CopyKit |
 | [06-arborescence-et-nommage.md](06-arborescence-et-nommage.md) | L'arborescence complète des dossiers et fichiers, les suffixes par rôle et les règles d'import entre couches |
-| [07-catalogue-skills-aidd.md](07-catalogue-skills-aidd.md) | **Les 47 skills AIDD installés**, un par un : étape, rôle, fichiers produits, prérequis, enchaînements |
+| [07-catalogue-skills-aidd.md](07-catalogue-skills-aidd.md) | **Les 51 skills AIDD installés**, un par un : étape, rôle, fichiers produits, prérequis, enchaînements |
 
 Pour démarrer : [03-stack-et-architecture.md](03-stack-et-architecture.md),
 puis [02-workflow-macos.md](02-workflow-macos.md).
@@ -34,7 +34,7 @@ supprimés) : on reste sur ce qui est officiel Apple.
 
 ## Vérification de l'installation
 
-### AI-Driven Dev Framework (marketplace `aidd-framework`, v5.12.0)
+### AI-Driven Dev Framework (marketplace `aidd-framework`, v5.13.0) : les 9 plugins installés
 
 | Plugin | Statut | Version installée | Skills |
 | --- | --- | --- | --- |
@@ -44,14 +44,18 @@ supprimés) : on reste sur ce qui est officiel Apple.
 | `aidd-pm` | ✅ installé (stable) | 2.6.0 | 10 |
 | `aidd-refine` | ✅ installé (stable) | 3.1.2 | 5 |
 | `aidd-orchestrator` | ✅ installé (stable) | 2.4.0 | 3 |
-| `aidd-ui` | ⛔ non installé (🚧 alpha) | — | 1 (smoke-test) |
-| `aidd-telemetry` | ⛔ non installé (🧪 beta) | — | 2 |
-| `aidd-qa` | ⛔ non installé (🆕 new) | — | 1 |
+| `aidd-ui` | ✅ installé (🚧 alpha) | 0.2.1-alpha.0 | 1 (smoke-test) |
+| `aidd-telemetry` | ✅ installé (🧪 beta) | 0.4.0 | 2 + 3 hooks |
+| `aidd-qa` | ✅ installé (🆕 new) | 1.0.0 | 1 |
 
-Les 6 plugins stables recommandés par AIDD sont là. Les 3 absents ne servent
-pas ici : `aidd-ui` ne contient qu'un skill de test de chargement,
-`aidd-telemetry` sert à mesurer tes tokens, `aidd-qa` teste uniquement dans un
-navigateur.
+**Total : 9 plugins, 51 skills, 2 agents**, comme annoncé par AIDD. Tous ont
+été vérifiés complets par rapport à la source du marketplace le 2026-10-31.
+
+Les 3 plugins hors parcours recommandé sont installés, mais ont peu d'usage
+pour CopyKit : `aidd-ui` ne contient qu'un skill de test de chargement,
+`aidd-telemetry` reste inactif tant que la mesure n'est pas activée, et
+`aidd-qa` ne teste que dans un navigateur. Détails dans
+[07](07-catalogue-skills-aidd.md#les-3-plugins-hors-parcours-recommandé).
 
 > Le cache contient aussi d'anciennes versions (par exemple
 > `aidd-context/2.8.1`). Claude Code charge la version listée dans

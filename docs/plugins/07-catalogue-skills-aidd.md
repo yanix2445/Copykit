@@ -17,9 +17,10 @@ qu'il lit ou exige, et quels autres skills il appelle.
 | `aidd-pm` | 2.6.0 | 10 | |
 | `aidd-refine` | 3.1.2 | 5 | |
 | `aidd-orchestrator` | 2.4.0 | 3 | |
-| **Installés** | | **47** | |
-| `aidd-ui`, `aidd-telemetry`, `aidd-qa` (non installés) | | 4 | alpha, beta et nouveau ; `aidd-qa` ne teste que dans un navigateur |
-| **Total annoncé par AIDD** | | **51** | |
+| `aidd-ui` | 0.2.1-alpha.0 | 1 | 🚧 alpha |
+| `aidd-telemetry` | 0.4.0 | 2 | 🧪 beta ; 3 hooks Node (`SessionStart` ×2, `UserPromptSubmit`) |
+| `aidd-qa` | 1.0.0 | 1 | 🆕 nouveau |
+| **Total installé** | | **51** | **9 plugins, 51 skills, 2 agents** : tout le framework |
 
 Légende des étapes : **0** fondations · **A** comprendre le besoin · **B**
 valider l'opportunité · **C** cadrer la V1 · **D** concevoir et planifier ·
@@ -182,6 +183,25 @@ hypothèses sont séparées ; **rien n'est écrit sans ton accord**.
 
 ---
 
+## Les 3 plugins hors parcours recommandé
+
+Installés le 2026-10-31 à la demande, pour avoir tout le framework.
+
+| Skill | Étape | Rôle | Pour CopyKit |
+| --- | --- | --- | --- |
+| `aidd-ui:01-hello` | — | Test de chargement : confirme seulement que le plugin répond. Aucune capacité UI ou UX réelle pour l'instant | ❌ inutile tant que le plugin est en alpha |
+| `aidd-qa:01-acceptance-qa` | F | Recette d'acceptation : verrouille au plus un parcours nominal et les cas limites cités par les critères d'acceptation, les rejoue et filme chaque scénario comme preuve pour la revue. Les scénarios viennent **uniquement des critères**, jamais du code | ❌ ne pilote qu'un **navigateur** (via `playwright-cli`, un outil tiers) ; une app macOS native n'est pas testable ainsi. Pour CopyKit : XCUITest et la recette manuelle |
+| `aidd-telemetry:00-init` | T | Active ou coupe la mesure des tokens pour un dépôt, avec ton consentement explicite ; nom ou anonymat ; effacement des données | ⚪ optionnel ; exige la CLI npm `@ai-driven-dev/cli` (non installée) |
+| `aidd-telemetry:01-usage` | T | Répond à « combien de tokens a coûté telle période, tâche ou ticket », à partir de la mesure locale ; lecture seule | ⚪ seulement si la mesure est activée |
+
+**Les hooks d'`aidd-telemetry`** : `session-start.cjs` et `catch-up.cjs` à chaque
+démarrage de session, et `prompt-gate.cjs` **à chacun de tes prompts**. Ce
+dernier peut bloquer un prompt pour te demander de déclarer une tâche. D'après
+son code, il est **inerte** hors d'un dépôt où la mesure a été activée
+(`aidd telemetry on`), ce qui n'est pas le cas de CopyKit. Rien n'est envoyé
+nulle part : les données restent dans `~/.config/aidd/telemetry`.
+`AIDD_TELEMETRY=0` désactive tout.
+
 ## Ce qui ne sert pas pour CopyKit
 
 | Skill | Raison |
@@ -190,6 +210,9 @@ hypothèses sont séparées ; **rien n'est écrit sans ton accord**.
 | `aidd-vcs:00-repo-init` | le dépôt existe déjà |
 | `aidd-dev:06-test` action `test-journey`, `aidd-dev:03-assert` facette frontend | testent dans un navigateur ; pour l'app : XCUITest |
 | `aidd-orchestrator:00-async-dev` | plus tard, s'il y a un backlog d'issues GitHub et une CI |
+| `aidd-ui:01-hello` | test de chargement d'un plugin alpha |
+| `aidd-qa:01-acceptance-qa` | navigateur uniquement |
+| `aidd-telemetry:*` | tant que la mesure des tokens n'est pas souhaitée |
 
 ## Points d'attention
 
