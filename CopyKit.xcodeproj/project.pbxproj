@@ -45,6 +45,11 @@
 			path = CopyKitUITests;
 			sourceTree = "<group>";
 		};
+		090DD1E03095ABA400CD928A /* docs */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = docs;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +74,7 @@
 		090DD18F3095904F00CD928A = {
 			isa = PBXGroup;
 			children = (
+				090DD1E03095ABA400CD928A /* docs */,
 				090DD19A3095904F00CD928A /* CopyKit */,
 				090DD1AA3095905300CD928A /* CopyKitTests */,
 				090DD1B43095905300CD928A /* CopyKitUITests */,
@@ -377,11 +383,13 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "yanis-harrat.CopyKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -409,11 +417,13 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "yanis-harrat.CopyKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
