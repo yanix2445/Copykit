@@ -27,10 +27,10 @@
 		090DD1983095904F00CD928A /* CopyKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopyKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		090DD1A73095905300CD928A /* CopyKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CopyKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		090DD1B13095905300CD928A /* CopyKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CopyKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1689DCCCC4EB3E457E134C51 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4496EC6516EF41657E3E6FF7 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 		53A9EE6999BDF6DCDCC2DC04 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		1689DCCCC4EB3E457E134C51 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		C947792184B02EAE55E8BCFE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".gitignore"; sourceTree = "<group>"; };
+		C947792184B02EAE55E8BCFE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
