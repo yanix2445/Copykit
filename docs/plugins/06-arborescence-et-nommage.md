@@ -205,5 +205,6 @@ Comme `CopyKit/`, `CopyKitTests/` et `CopyKitUITests/` sont des dossiers
 synchronisés, Xcode prend les sous-dossiers en compte tout seul. Les packages
 locaux s'ajoutent une fois au projet, puis à la cible app.
 
-La mise en place est la première tâche de la phase 3 du
+`App/` et `Resources/` sont déjà en place. `Features/`, `Shared/`, `Intents/`
+et `Packages/` arriveront avec la première story, à l'étape E du
 [workflow](02-workflow-macos.md).

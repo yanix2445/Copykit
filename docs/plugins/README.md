@@ -24,7 +24,7 @@ puis [02-workflow-macos.md](02-workflow-macos.md).
 | Rôle | Qui |
 | --- | --- |
 | Outillage, frameworks, savoir Swift / SwiftUI / tests | **Apple** : Xcode 27.1 et son plugin officiel `xcode-integration` |
-| SwiftData, concurrence, Swift Testing approfondi | **Paul Hudson** : plugins `swiftdata-pro`, `swift-concurrency-pro`, `swift-testing-pro` (Markdown uniquement, MIT) |
+| SwiftData, concurrence | documentation Apple et Swift ; plugins de **Paul Hudson** analysés mais **non installés** (option) |
 | Méthode (cadrage, plan, implémentation, revue, PR) | **AIDD** |
 | Règles de conception | les principes de [03-stack-et-architecture.md](03-stack-et-architecture.md) + les Human Interface Guidelines d'Apple |
 

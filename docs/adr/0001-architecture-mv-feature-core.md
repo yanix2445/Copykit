@@ -74,9 +74,9 @@ font foi dans [docs/plugins/06-arborescence-et-nommage.md](../plugins/06-arbores
   `Package.swift`.
 - ⚠️ Il faut juger, écran par écran, si un `…ViewModel` est justifié. Ce point
   est contrôlé en revue (`aidd-dev:05-review`).
-- Les fichiers du template Xcode (`ContentView.swift`, `Item.swift`,
-  `Assets.xcassets` à la racine de `CopyKit/`) seront remplacés ou déplacés
-  pendant la préparation du projet (phase 3 du workflow).
+- Les fichiers du template Xcode `ContentView.swift` et `Item.swift` seront
+  remplacés par la première story (étape E du workflow). `Assets.xcassets`
+  est déjà déplacé dans `Resources/`.
 
 ## On commence petit
 

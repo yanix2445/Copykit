@@ -30,10 +30,10 @@ Aucun outil tiers, aucun script maison qui remplace un outil Apple.
 | Trouver les trous d'un document | `aidd-refine:03-shadow-areas` |
 | Planifier | `aidd-dev:01-plan` |
 | Implémenter | `aidd-dev:02-implement`, avec les skills Apple `swiftui-specialist`, `swiftui-whats-new-27` |
-| Modèles et persistance | `swiftdata-pro` (Paul Hudson) |
-| Code async, actors, erreurs de concurrence | `swift-concurrency-pro` (Paul Hudson) |
+| Modèles et persistance | documentation Apple SwiftData (option non installée : `swiftdata-pro` de Paul Hudson) |
+| Code async, actors, erreurs de concurrence | documentation Swift (option non installée : `swift-concurrency-pro` de Paul Hudson) |
 | Faire passer les tests | `aidd-dev:03-assert` (lance `xcodebuild test`) |
-| Écrire des tests | `aidd-dev:06-test` (action `test`) + skill Apple `modernize-tests` + `swift-testing-pro` (Paul Hudson) |
+| Écrire des tests | `aidd-dev:06-test` (action `test`) + skill Apple `modernize-tests` |
 | Voir l'interface | Previews + captures XCUITest, relues avec les Human Interface Guidelines |
 | Accessibilité | skills Apple `accessibility-voiceover-specialist`, `accessibility-sufficient-contrast-specialist` |
 | Actions Raccourcis / Spotlight | skills Apple `app-intents-specialist`, `app-intents-whats-new-27` |
@@ -48,119 +48,161 @@ Aucun outil tiers, aucun script maison qui remplace un outil Apple.
 
 ---
 
-## Le cadre retenu pour CopyKit
+## Le cadre déjà en place
 
-Détails dans [03-stack-et-architecture.md](03-stack-et-architecture.md) :
+Fait le 2026-10-31 et fusionné sur `main` (PR #1) :
 
 1. **Ta propre application**, conçue de zéro.
-2. **Projet Xcode existant**, Xcode 27.1, Swift 6.4, SDK macOS 27.
-3. **100 % natif** : zéro dépendance tierce.
-4. **Swift 6** : passer `SWIFT_VERSION` de 5.0 au mode de langage 6.
-5. **App Sandbox** : décidé au brief. Décision tracée dans un ADR.
-6. **Architecture** : cible app fine + packages Swift locaux, dépendances
-   dirigées vers le cœur, coutures testables. À confirmer par ADR.
+2. **Projet Xcode**, Xcode 27.1, Swift 6.4, SDK macOS 27, mode de langage Swift 6.
+3. **100 % natif** : zéro dépendance tierce ; plugin officiel Apple installé.
+4. **Architecture** : MV par feature avec un cœur isolé, [ADR 0001](../adr/0001-architecture-mv-feature-core.md).
+5. **App Sandbox** : reste à décider à l'étape B.
 
 ---
 
-## L'ordre d'utilisation, étape par étape
+## Les étapes du projet : de l'idée floue au produit
+
+Les six étapes A à F ont été proposées par Yanis et confrontées au flux officiel
+d'AIDD (skill `aidd-context:00-onboard`, fichier `references/flow.md`). Elles sont
+gardées, avec trois corrections :
+
+| Correction | Pourquoi |
+| --- | --- |
+| **Ajout d'une étape 0 · Fondations** avant A | Pour un projet qui a déjà du code, AIDD exige d'abord la **mémoire projet** puis de la **brancher aux outils IA**. Sinon, chaque skill repart de zéro à chaque session |
+| **F n'est pas une étape finale, c'est une boucle** | Dans AIDD, on vérifie **chaque story** avant sa PR (`assert` → `review` → `challenge`). Attendre la fin pour vérifier accumule les défauts. F a donc deux niveaux : par story (dans E) et par version (recette) |
+| **Ajout d'une étape G · Livrer et apprendre** | Sans elle, le cycle ne se referme pas : publier une version, capitaliser (`learn`), puis repartir sur la version suivante |
+
+Une remarque sur l'ordre : l'architecture (ADR 0001) a été décidée **avant**
+l'étape A. Ce n'est pas un problème, car elle ne dépend d'aucune fonctionnalité.
+En revanche, elle sera **remise en question à l'étape D** face au brief et au
+backlog (`aidd-refine:02-challenge`).
 
 ```mermaid
 flowchart TD
-  P0["0 · Préparer<br/>branche claude/* · plugin Apple"]
-  P1["1 · Cadrer<br/>brainstorm · product-brief · shadow-areas"]
-  P2["2 · Backlog<br/>epic · user-stories · spikes"]
-  P3["3 · Fondations<br/>projet Xcode prêt · project-memory · design"]
-  P4["4 · Construire<br/>une story = plan · code · tests · commit"]
-  P5["5 · Contrôler et livrer<br/>review · challenge · pull-request"]
-  P6["6 · Fin de milestone<br/>audit · refactor · learn · release-tag"]
-  P0 --> P1 --> P2 --> P3 --> P4 --> P5 --> P6
-  P6 -. "milestone suivant" .-> P4
+  Z["0 · FONDATIONS<br/>mémoire projet · branchement IA"]
+  A["A · COMPRENDRE LE BESOIN<br/>brainstorm · shadow-areas"]
+  B["B · VALIDER L'OPPORTUNITÉ<br/>product-brief · fact-check · spikes"]
+  C["C · CADRER LA V1<br/>epics · user stories · three-amigos"]
+  D["D · CONCEVOIR ET PLANIFIER<br/>design · spec · plan · ADR"]
+  E["E · CONSTRUIRE<br/>une story = plan · implement · assert"]
+  F["F · VÉRIFIER ET VALIDER<br/>review · challenge · recette"]
+  G["G · LIVRER ET APPRENDRE<br/>PR · release · learn"]
+  Z --> A --> B --> C --> D --> E --> F
+  F -- "story suivante" --> E
+  F -- "écart de besoin" --> C
+  F -- "version prête" --> G
+  G -. "version suivante" .-> C
+  B -. "opportunité rejetée" .-> A
 ```
 
-### Phase 0 : préparer (une fois)
+### 0 · Fondations (une fois, maintenant)
 
-| # | Commande | Rôle |
-| --- | --- | --- |
-| 0.1 | `git checkout -b claude/<sujet>` | Ta règle : jamais de travail sur `main` |
-| 0.2 | ✅ fait : plugin officiel Apple `xcode-integration@apple-xcode` installé | Skills Apple + serveur MCP Xcode ([04](04-plugin-apple-xcode.md)) |
-| 0.2b | `/plugin install` de `swiftdata-pro`, `swift-concurrency-pro`, `swift-testing-pro` | Plugins de Paul Hudson pour SwiftData, la concurrence et Swift Testing ([04 §3](04-plugin-apple-xcode.md#3-les-alternatives-communautaires)) |
-| 0.3 | `/aidd-context:00-onboard` *(optionnel)* | Voir où en est le projet côté AIDD |
-
-### Phase 1 : cadrer l'app
-
-| # | Commande | Quand | Sortie |
+| # | Commande | Sortie | Statut |
 | --- | --- | --- | --- |
-| 1.1 | `/aidd-refine:01-brainstorm` | Tant que l'idée n'est pas nette | Idée affinée |
-| 1.2 | `/aidd-pm:06-product-brief` | Toujours : à qui sert l'app, ce qu'elle remplace, comment valider. Y trancher la question du sandbox | Product Brief |
-| 1.3 | `/aidd-refine:03-shadow-areas <brief>` | Avant de découper | Rapport des angles morts |
-| 1.4 | `/aidd-refine:04-fact-check` | Si le brief cite des faits (concurrents, APIs) | Faits vérifiés et sourcés |
+| 0.1 | Stack technique | Xcode 27.1, Swift 6, ADR 0001 | ✅ fait |
+| 0.2 | Plugin officiel Apple | `xcode-integration@apple-xcode` | ✅ fait |
+| 0.3 | `/aidd-context:02-project-memory setup` | `aidd_docs/memory/` : architecture, conventions, décisions | ⏳ à faire |
+| 0.4 | Brancher la mémoire (étape `sync` du même skill) | bloc mémoire dans `CLAUDE.md`, tenu à jour par le hook `SessionStart` | ⏳ à faire |
 
-### Phase 2 : le backlog
+**Critère de sortie** : `aidd_docs/memory/` existe, et `CLAUDE.md` contient le
+bloc `aidd_project_memory`.
 
-| # | Commande | Rôle |
-| --- | --- | --- |
-| 2.1 | `/aidd-pm:07-epic` | Un Epic par grand résultat attendu |
-| 2.2 | `/aidd-pm:02-user-stories` | Stories ordonnées, critères d'acceptation vérifiables : préciser pour chaque critère s'il est prouvé par Swift Testing, XCUITest ou un essai manuel |
-| 2.3 | `/aidd-pm:08-three-amigos` *(optionnel)* | Regard produit / delivery / qualité sur un Epic ou une Story |
-| 2.4 | `/aidd-refine:03-shadow-areas <stories>` | Trous dans les critères |
-| 2.5 | `/aidd-pm:05-spike "<question>"` | Chaque incertitude technique bloquante (permissions, APIs système) |
-
-### Phase 3 : les fondations
+### A · Comprendre le besoin
 
 | # | Commande | Rôle |
 | --- | --- | --- |
-| 3.1 | `/aidd-dev:01-plan "préparer le projet Xcode"` puis `/aidd-dev:02-implement` | Mode Swift 6, premier package Swift local (`CopyKitCore`), Test Plan (unitaires + UI, clair et sombre, couverture), réglage `swift-format`, `CLAUDE.md` avec les commandes `xcodebuild build` / `xcodebuild test`. Un ADR par décision structurante |
-| 3.2 | `/aidd-context:02-project-memory setup` | Mémoire projet `aidd_docs/memory/` + bloc dans `CLAUDE.md` |
-| 3.3 | Design plan (dans le brief ou `docs/DESIGN.md`) | Forme de l'app (fenêtre, menu bar, panneau), pages, carte des commandes et raccourcis, états vides, d'après les Human Interface Guidelines |
-| 3.4 | Tokens de design en Swift + `design/DESIGN-SYSTEM.md` | Accent, rayons, espacements, animations ([03 §6](03-stack-et-architecture.md#6-principes-de-design)) |
-| 3.5 | Icône dans Icon Composer | Xcode compile le fichier `.icon` |
-| 3.6 | `/aidd-vcs:01-commit` puis `/aidd-vcs:02-pull-request` | Commit propre + PR draft des fondations |
+| A.1 | `/aidd-refine:01-brainstorm` | Transformer l'idée floue en idée précise : quel problème, pour qui, dans quelle situation, ce qui est hors sujet. Ne planifie et ne code rien |
+| A.2 | `/aidd-refine:03-shadow-areas` sur l'idée affinée | Lister les angles morts, avec une question par trou |
 
-### Phase 4 : construire, story par story
+**Critère de sortie** : une idée affinée, approuvée, sans angle mort bloquant.
+
+### B · Valider l'opportunité
 
 | # | Commande | Rôle |
 | --- | --- | --- |
-| 4.1 | `/aidd-dev:01-plan S-0XX` | Plan par phases, wireframe ASCII si la story a une UI |
-| 4.2 | `/aidd-dev:02-implement` | Code + tests, un commit local par tâche validée, en suivant les skills Apple, `swiftdata-pro`, `swift-concurrency-pro`, `swift-testing-pro` et `design/DESIGN-SYSTEM.md` |
-| 4.3 | `/aidd-dev:03-assert` | `xcodebuild test` jusqu'au vert |
-| 4.4 | Regarder Previews et captures XCUITest (clair et sombre) | Comparer aux critères de la story et aux Human Interface Guidelines |
-| 4.5 | Mettre la story à jour (statut `done`) | Dans le même commit que le code |
+| B.1 | `/aidd-pm:06-product-brief` | Un Product Brief : problème, cible, alternatives existantes, preuves, hypothèses, **comment on saura que ça marche**. Ses étapes internes : cadrer → découvrir (recherche, challenge) → visualiser → rédiger → valider |
+| B.2 | `/aidd-refine:04-fact-check` sur le brief | Vérifier les affirmations (concurrents, prix, capacités de macOS), avec sources |
+| B.3 | `/aidd-pm:05-spike "<question>"` | Lever chaque **risque de faisabilité** qui peut tuer l'idée. Exemple : coller dans une autre app exige Accessibility, qui est incompatible avec l'App Sandbox |
+| B.4 | Décision **go / no-go** + décision **sandbox** | Tracées dans un ADR |
 
-Variante tout-en-un pour une feature lourde ou risquée :
-`/aidd-orchestrator:01-sdlc interactive "<story ou feature>"` (contrat → plan
-→ exécution par `executor` → revue par `checker` → PR draft).
+**Critère de sortie** : un Product Brief approuvé, les risques bloquants levés,
+une décision go. Pour une app personnelle, cette étape peut être courte, mais
+elle ne se saute pas : c'est elle qui évite de construire ce qui existe déjà
+gratuitement, ou ce que macOS ne permet pas.
 
-### Phase 5 : contrôler et livrer
-
-| # | Commande | Rôle |
-| --- | --- | --- |
-| 5.1 | `/aidd-dev:05-review` | Revue statique du diff |
-| 5.2 | `/aidd-refine:02-challenge` | Le résultat sert-il vraiment le besoin ? |
-| 5.3 | `/aidd-vcs:01-commit` | Si des corrections ont suivi |
-| 5.4 | `/aidd-vcs:02-pull-request` | PR en draft vers `main` ; tu la promeus et tu merges |
-
-(Avec `01-sdlc`, les étapes 5.1 à 5.4 sont incluses.)
-
-### Phase 6 : fin de milestone
+### C · Cadrer la première version
 
 | # | Commande | Rôle |
 | --- | --- | --- |
-| 6.1 | `/aidd-dev:04-audit` | Audit 7 piliers en lecture seule (dont architecture, tests, UI) |
-| 6.2 | skill Apple `audit-xcode-security-settings` | Durcir les réglages de sécurité du build |
-| 6.3 | `/aidd-dev:07-refactor` | Appliquer l'audit, axe par axe, comportement prouvé identique |
-| 6.4 | Instruments + mesures XCTest | Vérifier les objectifs de réactivité |
-| 6.5 | `/aidd-context:10-learn` | Ranger les leçons durables (mémoire, ADR, règle) |
-| 6.6 | `/aidd-vcs:03-release-tag` | Version semver + notes, après merge sur `main` |
+| C.1 | `/aidd-pm:07-epic` | Un Epic par grand résultat attendu de la V1 |
+| C.2 | `/aidd-pm:02-user-stories` | Des stories découpées en tranches verticales, ordonnées. Chaque critère d'acceptation dit s'il se prouve par Swift Testing, XCUITest ou un essai manuel |
+| C.3 | `/aidd-pm:08-three-amigos` | Regard produit, delivery et qualité sur chaque Epic et chaque story importante |
+| C.4 | `/aidd-refine:03-shadow-areas` sur les stories | Trous dans les critères |
+| C.5 | `/aidd-orchestrator:02-backlog` *(optionnel)* | Tenir le backlog cohérent (ordre, dépendances, santé) |
 
-### Plus tard (optionnel)
+**Critère de sortie** : un backlog V1 ordonné, avec une liste explicite de ce
+qui n'est **pas** dans la V1.
 
-| Quoi | Avec |
-| --- | --- |
-| Actions dans Raccourcis et Spotlight | App Intents + skills Apple `app-intents-*` |
-| Traduction | skill Apple `translation-coordinator` |
-| Formatage automatique après chaque édition Swift | `aidd-context:08-hook-generate` avec `swift-format` |
-| Distribution | Archive Xcode → Developer ID → `notarytool` → `stapler` |
-| Issues GitHub → PR automatiques | `aidd-orchestrator:00-async-dev` |
+### D · Concevoir et planifier
+
+| # | Commande | Rôle |
+| --- | --- | --- |
+| D.1 | `/aidd-refine:02-challenge` sur l'ADR 0001 | Vérifier que l'architecture tient face au brief et au backlog |
+| D.2 | Conception de l'app (`docs/DESIGN.md`) | Forme de l'app (fenêtre, menu bar, panneau), pages, carte des commandes et raccourcis, états vides, d'après les Human Interface Guidelines |
+| D.3 | Design system : tokens Swift + `docs/DESIGN-SYSTEM.md` ; icône dans Icon Composer | Couleurs, espacements, rayons, animations |
+| D.4 | `/aidd-pm:04-spec` *(pour les stories complexes)* | Contrat immuable de la feature, sans solution technique |
+| D.5 | `/aidd-dev:01-plan S-0XX` | Plan par phases de la prochaine story, avec un wireframe ASCII si elle a une UI |
+| D.6 | `/aidd-context:10-learn` | Chaque décision difficile à défaire → un ADR |
+
+**Critère de sortie** : la conception validée et un plan prêt pour la première
+story. Le plan se fait **story par story**, juste avant de la construire, pas
+tout d'un coup.
+
+### E · Construire le produit (boucle par story)
+
+| # | Commande | Rôle |
+| --- | --- | --- |
+| E.1 | `/aidd-dev:02-implement` | Code + tests, un commit local par tâche validée, avec les skills Apple (`swiftui-specialist`, `swiftui-whats-new-27`, `modernize-tests`) |
+| E.2 | `/aidd-dev:03-assert` | `xcodebuild test` jusqu'au vert |
+| E.3 | `/aidd-dev:06-test` (action `test`) | Combler les comportements non testés |
+| E.4 | `/aidd-dev:08-debug` *(si besoin)* | Bug : reproduire, test qui échoue, correction |
+
+Variante tout-en-un pour une story lourde ou risquée :
+`/aidd-orchestrator:01-sdlc interactive "<story>"`. Elle enchaîne D.5, E et F.1
+à F.3, avec trois pauses : sur le contrat, sur le plan et sur le résultat.
+
+### F · Vérifier et valider (deux niveaux)
+
+**Par story, avant chaque PR :**
+
+| # | Commande | Rôle |
+| --- | --- | --- |
+| F.1 | `/aidd-dev:05-review` | Revue du diff : qualité, conformité à la story, pertinence |
+| F.2 | `/aidd-refine:02-challenge` | Le résultat sert-il vraiment le besoin ? |
+| F.3 | Previews + captures XCUITest, clair et sombre | Conformité aux critères et aux Human Interface Guidelines |
+
+**Par version, avant de livrer :**
+
+| # | Commande | Rôle |
+| --- | --- | --- |
+| F.4 | Recette manuelle | Tu utilises l'app réelle et tu coches les critères `[manual]` |
+| F.5 | `/aidd-dev:04-audit` | Audit en lecture seule sur 7 piliers |
+| F.6 | Skills Apple d'accessibilité + Accessibility Inspector | VoiceOver, contrastes |
+| F.7 | Skill Apple `audit-xcode-security-settings` | Réglages de sécurité du build |
+| F.8 | Instruments / `xctrace` | Réactivité et mémoire |
+| F.9 | `/aidd-dev:07-refactor` | Corriger ce que l'audit a trouvé |
+
+`aidd-qa` n'est pas utilisable ici : il ne teste que dans un navigateur.
+
+### G · Livrer et apprendre
+
+| # | Commande | Rôle |
+| --- | --- | --- |
+| G.1 | `/aidd-vcs:01-commit` puis `/aidd-vcs:02-pull-request` | Une PR draft par story, que tu promeus et que tu merges |
+| G.2 | `/aidd-vcs:03-release-tag` | Version semver, tag annoté, notes de version |
+| G.3 | Archive Xcode → Developer ID → `notarytool` → `stapler` | Distribuer une app signée et notarisée (ou Mac App Store si le sandbox reste) |
+| G.4 | `/aidd-context:10-learn` | Capitaliser : mémoire, ADR, règles |
+| G.5 | Retours d'usage → `/aidd-pm:09-defect` ou nouvelles stories | Ils alimentent la version suivante (retour en C) |
 
 ---
 
@@ -169,9 +211,9 @@ Variante tout-en-un pour une feature lourde ou risquée :
 1. **Branches** : `02-implement` commite à chaque tâche et `01-sdlc` pousse.
    Toujours lancer depuis une branche `claude/*` (le hook `protect-main.sh`
    bloque `main`).
-2. **`CLAUDE.md`** : créé en phase 3 avec les vraies commandes (`xcodebuild`,
-   Test Plan, `swift-format`) ; `project-memory` y ajoute son bloc entre
-   marqueurs, tenu à jour par le hook `SessionStart`.
+2. **`CLAUDE.md`** : il contient déjà les vraies commandes (`xcodebuild`) ;
+   `project-memory` (étape 0) y ajoute son bloc entre marqueurs, tenu à jour
+   par le hook `SessionStart`.
 3. **Serveur MCP Xcode** : il lui faut Xcode ouvert sur le projet (ou le mode
    sans fenêtre). Réexporter les skills Apple après chaque mise à jour d'Xcode.
 4. **`aidd-dev:09-for-sure`** agit à ta place (crée des comptes, génère des
@@ -190,11 +232,11 @@ Variante tout-en-un pour une feature lourde ou risquée :
 | Je veux… | Commande / outil |
 | --- | --- |
 | Savoir où j'en suis | `/aidd-context:00-onboard` |
+| Créer la mémoire projet | `/aidd-context:02-project-memory setup` |
+| Valider l'opportunité | `/aidd-pm:06-product-brief` puis `/aidd-pm:05-spike` |
 | Clarifier une idée | `/aidd-refine:01-brainstorm` |
-| Cadrer le produit | `/aidd-pm:06-product-brief` |
 | Écrire le backlog | `/aidd-pm:02-user-stories` |
 | Trouver les trous d'un document | `/aidd-refine:03-shadow-areas <fichier>` |
-| Préparer le projet Xcode | `/aidd-dev:01-plan` puis `/aidd-dev:02-implement` |
 | Construire une story | `/aidd-dev:01-plan S-0XX` puis `/aidd-dev:02-implement` |
 | Livrer une grosse feature de bout en bout | `/aidd-orchestrator:01-sdlc interactive "<feature>"` |
 | Lancer les tests | `/aidd-dev:03-assert` (ou `xcodebuild test`) |
