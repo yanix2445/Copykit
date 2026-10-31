@@ -17,10 +17,9 @@ qu'il lit ou exige, et quels autres skills il appelle.
 | `aidd-pm` | 2.6.0 | 10 | |
 | `aidd-refine` | 3.1.2 | 5 | |
 | `aidd-orchestrator` | 2.4.0 | 3 | |
-| `aidd-ui` | 0.2.1-alpha.0 | 1 | 🚧 alpha |
-| `aidd-telemetry` | 0.4.0 | 2 | 🧪 beta ; 3 hooks Node (`SessionStart` ×2, `UserPromptSubmit`) |
-| `aidd-qa` | 1.0.0 | 1 | 🆕 nouveau |
-| **Total installé** | | **51** | **9 plugins, 51 skills, 2 agents** : tout le framework |
+| **Total installé** | | **47** | 6 plugins, 47 skills, 2 agents |
+| `aidd-ui` 0.2.1-alpha.0, `aidd-telemetry` 0.4.0, `aidd-qa` 1.0.0 | | 4 | **désinstallés** le 2026-10-31 après essai |
+| **Total du framework** | | **51** | 9 plugins |
 
 Légende des étapes : **0** fondations · **A** comprendre le besoin · **B**
 valider l'opportunité · **C** cadrer la V1 · **D** concevoir et planifier ·
@@ -185,7 +184,8 @@ hypothèses sont séparées ; **rien n'est écrit sans ton accord**.
 
 ## Les 3 plugins hors parcours recommandé
 
-Installés le 2026-10-31 à la demande, pour avoir tout le framework.
+Installés puis **désinstallés** le 2026-10-31 : ils n'apportent rien à une app
+macOS native. Ce qui suit reste pour mémoire.
 
 | Skill | Étape | Rôle | Pour CopyKit |
 | --- | --- | --- | --- |
@@ -201,6 +201,29 @@ son code, il est **inerte** hors d'un dépôt où la mesure a été activée
 (`aidd telemetry on`), ce qui n'est pas le cas de CopyKit. Rien n'est envoyé
 nulle part : les données restent dans `~/.config/aidd/telemetry`.
 `AIDD_TELEMETRY=0` désactive tout.
+
+## Vérifier une installation
+
+À refaire après chaque mise à jour : une mise à jour peut copier un plugin de
+façon incomplète **sans aucun message d'erreur** (c'est arrivé deux fois le
+2026-10-31 : les agents de `aidd-dev`, deux fichiers de `aidd-context`).
+
+1. Mettre à jour : `claude plugin marketplace update aidd-framework`, puis
+   `claude plugin update <plugin>@aidd-framework`.
+2. Récupérer le dépôt officiel :
+   `git clone --depth 1 https://github.com/ai-driven-dev/framework.git <dossier>`
+   et la dernière version de chaque plugin :
+   `gh release list -R ai-driven-dev/framework`.
+3. Comparer chaque plugin installé au dépôt officiel :
+   `diff -rq <dossier>/plugins/<plugin> ~/.claude/plugins/cache/aidd-framework/<plugin>/<version>`.
+   Seuls les fichiers techniques `.in_use` et `.orphaned_at` peuvent différer.
+4. Vérifier que chaque élément déclaré dans `.claude-plugin/plugin.json`
+   (`skills`, `agents`) existe dans la copie installée.
+5. En cas d'écart : `claude plugin uninstall <plugin>@aidd-framework`, puis
+   `claude plugin install <plugin>@aidd-framework`, et refaire l'étape 3.
+
+Résultat du 2026-10-31 : les 6 plugins installés sont à la dernière release
+(v5.13.0, égale à la branche `main`) et identiques au dépôt officiel.
 
 ## Ce qui ne sert pas pour CopyKit
 
