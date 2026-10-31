@@ -3,7 +3,7 @@
 ← [Retour à l'index](README.md) · Architecture : [05-architectures.md](05-architectures.md) · Principes : [03-stack-et-architecture.md](03-stack-et-architecture.md)
 
 ✅ **Validé le 2026-10-31** et tracé dans
-[ADR 0001](../adr/0001-architecture-mv-feature-core.md). Elle applique l'architecture retenue : **MV à la manière d'Apple,
+[ADR 0001](../../internal/decisions/architecture-mv-feature-core.md). Elle applique l'architecture retenue : **MV à la manière d'Apple,
 rangé par feature, avec un cœur métier isolé** (Clean Architecture légère).
 
 > Les features citées (`History`, `QuickPanel`, `MenuBar`, `Settings`,
@@ -163,22 +163,19 @@ CopyKit/                                   racine du dépôt git
 ├── TestPlans/
 │   └── CopyKit.xctestplan                 unitaires + UI, clair et sombre, couverture
 │
-├── docs/                                  notre documentation (dossier synchronisé, sans cible)
-│   ├── DESIGN.md                          conception de l'app (forme, pages, commandes)
-│   ├── DESIGN-SYSTEM.md                   quel token utiliser quand
-│   ├── adr/                               décisions d'architecture
-│   │   └── 0001-architecture-mv-feature-core.md
-│   └── plugins/                           cette documentation
-│
-└── aidd_docs/                             tout ce que produit AIDD (dossier synchronisé, sans cible)
-    ├── memory/                            mémoire projet
+└── aidd_docs/                             TOUTE la documentation du projet (dossier synchronisé, sans cible)
+    ├── README.md · GUIDELINES.md · CONTRIBUTING.md
+    ├── memory/                            mémoire projet, chargée à chaque session
+    │   ├── *.md                           architecture, design, navigation, vcs…
+    │   ├── internal/decisions/            décisions d'architecture (ADR)
+    │   └── external/plugins-et-workflow/  cette documentation, lue à la demande
     ├── product/                           Product Brief
     ├── backlog/                           epics, stories, spikes, defects, tasks
     └── tasks/                             brainstorms, plans, revues, audits
 ```
 
-Le brief et les stories sont produits par les skills `aidd-pm` dans
-`aidd_docs/`, jamais recopiés dans `docs/`. Détail des chemins :
+Il n'y a plus de dossier `docs/` : tout vit dans `aidd_docs/`, aux places
+prévues par AIDD. Détail des chemins :
 [07-catalogue-skills-aidd.md](07-catalogue-skills-aidd.md#où-aidd-range-ses-fichiers).
 
 ---

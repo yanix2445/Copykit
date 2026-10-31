@@ -216,7 +216,7 @@ backlog d'issues.
 `ask | create | manage | review | refine` : tri des nouvelles demandes,
 raffinement (via `three-amigos`), revue de santé, réparation. Délègue
 l'écriture aux skills `aidd-pm`. ⚪ Utile si tu gères le backlog en issues
-plutôt que dans `docs/STORIES.md`.
+plutôt que dans `aidd_docs/backlog/`.
 
 ---
 

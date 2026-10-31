@@ -56,6 +56,16 @@ Read only task-relevant context and linked memory files; complete required reads
 [aidd_docs/memory/testing.md](aidd_docs/memory/testing.md)
 [aidd_docs/memory/vcs.md](aidd_docs/memory/vcs.md)
 
+<!-- read on demand, not auto-loaded -->
+- aidd_docs/memory/internal/decisions/architecture-mv-feature-core.md
+- aidd_docs/memory/external/plugins-et-workflow/01-aidd-framework.md
+- aidd_docs/memory/external/plugins-et-workflow/02-workflow-macos.md
+- aidd_docs/memory/external/plugins-et-workflow/03-stack-et-architecture.md
+- aidd_docs/memory/external/plugins-et-workflow/04-plugin-apple-xcode.md
+- aidd_docs/memory/external/plugins-et-workflow/05-architectures.md
+- aidd_docs/memory/external/plugins-et-workflow/06-arborescence-et-nommage.md
+- aidd_docs/memory/external/plugins-et-workflow/07-catalogue-skills-aidd.md
+
 <!-- aidd_project_memory:end -->
 
 - Load `aidd_docs/memory/external/*` only when asked.

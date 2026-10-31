@@ -55,7 +55,7 @@ Fait le 2026-10-31 et fusionné sur `main` (PR #1) :
 1. **Ta propre application**, conçue de zéro.
 2. **Projet Xcode**, Xcode 27.1, Swift 6.4, SDK macOS 27, mode de langage Swift 6.
 3. **100 % natif** : zéro dépendance tierce ; plugin officiel Apple installé.
-4. **Architecture** : MV par feature avec un cœur isolé, [ADR 0001](../adr/0001-architecture-mv-feature-core.md).
+4. **Architecture** : MV par feature avec un cœur isolé, [ADR 0001](../../internal/decisions/architecture-mv-feature-core.md).
 5. **App Sandbox** : reste à décider à l'étape B.
 
 ---
@@ -156,8 +156,8 @@ qui n'est **pas** dans la V1.
 | # | Commande | Rôle |
 | --- | --- | --- |
 | D.1 | `/aidd-refine:02-challenge` sur l'ADR 0001 | Vérifier que l'architecture tient face au brief et au backlog |
-| D.2 | Conception de l'app (`docs/DESIGN.md`) | Forme de l'app (fenêtre, menu bar, panneau), pages, carte des commandes et raccourcis, états vides, d'après les Human Interface Guidelines |
-| D.3 | Design system : tokens Swift + `docs/DESIGN-SYSTEM.md` ; icône dans Icon Composer | Couleurs, espacements, rayons, animations |
+| D.2 | Conception de l'app (`aidd_docs/memory/design.md` et `navigation.md`) | Forme de l'app (fenêtre, menu bar, panneau), pages, carte des commandes et raccourcis, états vides, d'après les Human Interface Guidelines |
+| D.3 | Design system : tokens Swift, documentés dans `aidd_docs/memory/design.md` ; icône dans Icon Composer | Couleurs, espacements, rayons, animations |
 | D.4 | `/aidd-pm:04-spec` *(pour les stories complexes)* | Contrat immuable de la feature, sans solution technique |
 | D.5 | `/aidd-dev:01-plan S-0XX` | Plan par phases de la prochaine story, avec un wireframe ASCII si elle a une UI |
 | D.6 | `/aidd-context:10-learn` | Chaque décision difficile à défaire → un ADR |

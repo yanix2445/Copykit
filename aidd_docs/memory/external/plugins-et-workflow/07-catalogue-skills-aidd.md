@@ -49,8 +49,9 @@ revue. Réparé en réinstallant le plugin (`claude plugin uninstall` puis
 ## Où AIDD range ses fichiers
 
 AIDD écrit tout dans **`aidd_docs/`** à la racine du dépôt. C'est là que vivront
-le brief, le backlog, les plans et la mémoire. `docs/` garde notre
-documentation, les ADR et la conception.
+le brief, le backlog, les plans et la mémoire, mais aussi les décisions
+(`memory/internal/decisions/`) et cette documentation
+(`memory/external/plugins-et-workflow/`).
 
 ```text
 aidd_docs/
@@ -248,7 +249,7 @@ Résultat du 2026-10-31 : les 6 plugins installés sont à la dernière release
 2. **Confirmer les capacités `desktop`, `database` et `ui`** au moment du
    `setup` : la détection automatique vise surtout le web.
 3. **Les skills `aidd-pm` écrivent dans `aidd_docs/`** : le brief et les
-   stories ne vont pas dans `docs/`. On ne duplique pas.
+   stories vivent dans `aidd_docs/` comme toute la documentation du projet.
 4. **Rien n'est écrit sans ton accord** dans `aidd-pm` et `aidd-vcs`, mais
    `02-implement` commite seul à chaque tâche, et `01-sdlc` en mode `auto` va
    jusqu'à la PR sans s'arrêter.

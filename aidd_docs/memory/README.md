@@ -30,6 +30,17 @@ Refreshed automatically by the memory hook. Do not edit by hand.
 - [project-brief.md](project-brief.md)
 - [testing.md](testing.md)
 - [vcs.md](vcs.md)
+
+Read on demand:
+
+- [internal/decisions/architecture-mv-feature-core.md](internal/decisions/architecture-mv-feature-core.md)
+- [external/plugins-et-workflow/01-aidd-framework.md](external/plugins-et-workflow/01-aidd-framework.md)
+- [external/plugins-et-workflow/02-workflow-macos.md](external/plugins-et-workflow/02-workflow-macos.md)
+- [external/plugins-et-workflow/03-stack-et-architecture.md](external/plugins-et-workflow/03-stack-et-architecture.md)
+- [external/plugins-et-workflow/04-plugin-apple-xcode.md](external/plugins-et-workflow/04-plugin-apple-xcode.md)
+- [external/plugins-et-workflow/05-architectures.md](external/plugins-et-workflow/05-architectures.md)
+- [external/plugins-et-workflow/06-arborescence-et-nommage.md](external/plugins-et-workflow/06-arborescence-et-nommage.md)
+- [external/plugins-et-workflow/07-catalogue-skills-aidd.md](external/plugins-et-workflow/07-catalogue-skills-aidd.md)
 <!-- files:end -->
 
 ## Maintaining it

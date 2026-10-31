@@ -19,9 +19,9 @@ flowchart LR
 ## Key decisions
 
 - 100 % Apple : aucune dépendance tierce ; toute exception se demande d'abord.
-- Architecture MV à la manière d'Apple, rangée par feature, avec un cœur isolé dans des packages Swift locaux (`CopyKitCore`, `CopyKitData`, `CopyKitSystem`) dont les dépendances vont vers le cœur : voir `docs/adr/0001-architecture-mv-feature-core.md`.
+- Architecture MV à la manière d'Apple, rangée par feature, avec un cœur isolé dans des packages Swift locaux (`CopyKitCore`, `CopyKitData`, `CopyKitSystem`) dont les dépendances vont vers le cœur : voir `aidd_docs/memory/internal/decisions/architecture-mv-feature-core.md`.
 - Un objet `@Observable` suffixé `…ViewModel` seulement pour un écran qui porte de la logique propre, jamais par réflexe.
-- Le rôle d'un type se lit à son suffixe, un type par fichier : voir `docs/plugins/06-arborescence-et-nommage.md`.
+- Le rôle d'un type se lit à son suffixe, un type par fichier : voir `aidd_docs/memory/external/plugins-et-workflow/06-arborescence-et-nommage.md`.
 - Les skills Apple `xcode-integration:*` font foi sur SwiftUI, Swift Testing, App Intents, l'accessibilité et la traduction.
 
 ## Gotchas
