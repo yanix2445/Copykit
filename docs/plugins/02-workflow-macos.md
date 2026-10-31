@@ -101,8 +101,13 @@ flowchart TD
 | --- | --- | --- | --- |
 | 0.1 | Stack technique | Xcode 27.1, Swift 6, ADR 0001 | ✅ fait |
 | 0.2 | Plugin officiel Apple | `xcode-integration@apple-xcode` | ✅ fait |
-| 0.3 | `/aidd-context:02-project-memory setup` | `aidd_docs/memory/` : architecture, conventions, décisions | ⏳ à faire |
-| 0.4 | Brancher la mémoire (étape `sync` du même skill) | bloc mémoire dans `CLAUDE.md`, tenu à jour par le hook `SessionStart` | ⏳ à faire |
+| 0.3 | `/aidd-context:00-onboard` | **Point d'entrée officiel d'AIDD** : il lit le projet, le classe (ici « existant » : du code, pas de mémoire), puis propose l'étape suivante dans un menu. Il n'exécute rien sans ta réponse | ⏳ à faire |
+| 0.4 | `/aidd-context:02-project-memory setup`, proposé par l'onboarding | `aidd_docs/memory/` : architecture, conventions, décisions | ⏳ à faire |
+| 0.5 | Brancher la mémoire (étape `sync` du même skill) | bloc mémoire dans `CLAUDE.md`, tenu à jour par le hook `SessionStart` | ⏳ à faire |
+
+À tout moment par la suite, relancer `/aidd-context:00-onboard` pour savoir où
+on en est : il suit le flux d'une feature (brainstorm, spec, plan, implement,
+assert, review, commit, PR) et indique l'étape suivante.
 
 **Critère de sortie** : `aidd_docs/memory/` existe, et `CLAUDE.md` contient le
 bloc `aidd_project_memory`.
