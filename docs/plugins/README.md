@@ -38,11 +38,11 @@ supprimés) : on reste sur ce qui est officiel Apple.
 
 | Plugin | Statut | Version installée | Skills |
 | --- | --- | --- | --- |
-| `aidd-context` | ✅ installé (stable) | 2.9.0 | 13 |
-| `aidd-dev` | ✅ installé (stable) | 2.7.0 | 10 + 2 agents |
+| `aidd-context` | ✅ installé (stable) | 2.10.0 | 13 |
+| `aidd-dev` | ✅ installé (stable) | 2.7.1 | 10 + 2 agents |
 | `aidd-vcs` | ✅ installé (stable) | 2.5.0 | 6 |
 | `aidd-pm` | ✅ installé (stable) | 2.6.0 | 10 |
-| `aidd-refine` | ✅ installé (stable) | 3.1.1 | 5 |
+| `aidd-refine` | ✅ installé (stable) | 3.1.2 | 5 |
 | `aidd-orchestrator` | ✅ installé (stable) | 2.4.0 | 3 |
 | `aidd-ui` | ⛔ non installé (🚧 alpha) | — | 1 (smoke-test) |
 | `aidd-telemetry` | ⛔ non installé (🧪 beta) | — | 2 |

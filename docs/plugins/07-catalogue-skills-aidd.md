@@ -11,11 +11,11 @@ qu'il lit ou exige, et quels autres skills il appelle.
 
 | Plugin | Version | Skills | En plus |
 | --- | --- | --- | --- |
-| `aidd-context` | 2.9.0 | 13 | hook `SessionStart` (synchronise la mémoire dans `CLAUDE.md`) |
-| `aidd-dev` | 2.7.0 | 10 | 2 agents : `executor`, `checker` |
+| `aidd-context` | 2.10.0 | 13 | hook `SessionStart` (synchronise la mémoire dans `CLAUDE.md`) |
+| `aidd-dev` | 2.7.1 | 10 | 2 agents : `executor`, `checker` |
 | `aidd-vcs` | 2.5.0 | 6 | |
 | `aidd-pm` | 2.6.0 | 10 | |
-| `aidd-refine` | 3.1.1 | 5 | |
+| `aidd-refine` | 3.1.2 | 5 | |
 | `aidd-orchestrator` | 2.4.0 | 3 | |
 | **Installés** | | **47** | |
 | `aidd-ui`, `aidd-telemetry`, `aidd-qa` (non installés) | | 4 | alpha, beta et nouveau ; `aidd-qa` ne teste que dans un navigateur |
@@ -25,6 +25,24 @@ Légende des étapes : **0** fondations · **A** comprendre le besoin · **B**
 valider l'opportunité · **C** cadrer la V1 · **D** concevoir et planifier ·
 **E** construire · **F** vérifier · **G** livrer et apprendre · **T**
 transverse (à tout moment).
+
+
+## Changements de la mise à jour du 2026-10-31
+
+| Plugin | Avant → après | Ce qui change |
+| --- | --- | --- |
+| `aidd-context` | 2.9.0 → 2.10.0 | `05-rule-generate` réécrit (comparaison avec les règles existantes, évaluation, accord explicite avant écriture) ; le modèle `vcs.md` de la mémoire gagne deux lignes : **Tickets** (outil et lecture d'un ticket) et **Hooks** (ce qui tourne au commit et au push) |
+| `aidd-dev` | 2.7.0 → 2.7.1 | `01-plan` restructuré en 3 actions, wireframe par phase, validation par script Node, relecture par un sous-agent indépendant ; agents inchangés |
+| `aidd-refine` | 3.1.1 → 3.1.2 | `01-brainstorm` allégé « pour les petits modèles » : 3 actions, une carte de découverte, le brief peut rester dans la conversation |
+| `aidd-pm`, `aidd-vcs`, `aidd-orchestrator` | inchangés | — |
+
+⚠️ **Incident d'installation corrigé** : après la mise à jour, la copie
+installée de `aidd-dev` 2.7.1 n'avait plus son dossier `agents/`, alors que son
+manifeste et la source du marketplace déclarent `executor` et `checker`. Sans
+eux, `aidd-orchestrator:01-sdlc` ne peut plus déléguer l'implémentation ni la
+revue. Réparé en réinstallant le plugin (`claude plugin uninstall` puis
+`install aidd-dev@aidd-framework`). À vérifier après chaque mise à jour :
+`ls ~/.claude/plugins/cache/aidd-framework/aidd-dev/*/agents`.
 
 ---
 
@@ -89,7 +107,7 @@ les commandes qui y sont écrites. Il devra contenir nos commandes
 | `02-project-memory` | 0 | Crée (`setup`), met à jour (`refresh`) ou rebranche (`rewire`) la mémoire du projet | `aidd_docs/memory/*`, bloc dans `CLAUDE.md` | le code | 04-skill-generate |
 | `03-context-generate` | T | Aiguille vers le bon générateur quand on ne sait pas quel artefact créer | — | — | 04 à 08 |
 | `04-skill-generate` | T | Crée ou modifie un skill (router + actions) | dossier de skill | — | — |
-| `05-rule-generate` | T | Crée, modifie, publie ou supprime une règle de code | `aidd_docs/rules/<catégorie>/<règle>.md` + publication par outil IA | — | — |
+| `05-rule-generate` | T | Crée, modifie, publie ou supprime une règle de code. Depuis 2.10.0 : cadre la règle, la **compare aux règles existantes**, l'évalue et te montre un candidat ; n'écrit qu'après ton accord explicite sur ce candidat | `aidd_docs/rules/<catégorie>/<règle>.md` + publication par outil IA (script Node `write-rule.cjs`) | les règles existantes | — |
 | `06-agent-generate` | T | Crée un agent spécialisé | fichier d'agent | — | — |
 | `07-command-generate` | T | Crée une commande slash | fichier de commande | — | — |
 | `08-hook-generate` | T | Crée un hook (script lancé à un événement) | entrée de settings + script | — | — |
@@ -102,7 +120,7 @@ les commandes qui y sont écrites. Il devra contenir nos commandes
 
 | Skill | Étape | Rôle | Produit | Remarque |
 | --- | --- | --- | --- | --- |
-| `01-brainstorm` | **A** | Rend une idée floue précise, par des questions qui changent ce qui sera construit. Ne planifie et ne code jamais | `aidd_docs/tasks/<…>_<slug>/brainstorm.md` | attend tes réponses à chaque tour |
+| `01-brainstorm` | **A** | Rend une idée floue précise par des questions. Depuis 3.1.2 : capture → explore (questions guidées par une carte : acteur et douleur, déclencheur et comportement, non-objectifs et plus petite version utile, contraintes et permissions, preuve que ça marche, cas limites) → conclude (brief à approuver). Ne planifie et ne code jamais | au choix : la conversation, `aidd_docs/tasks/<…>_<slug>/brainstorm.md` (`status: approved`), ou un ticket | n'écrit rien sans ton choix ; tu peux l'arrêter à tout moment pour un résumé |
 | `02-challenge` | D, **F** | Remet en cause un travail fini face au plan : deal-breaker, suggestion ou correct, avec un score de confiance | rapport (modèle fixe) | utilisé par `01-sdlc` après la revue |
 | `03-shadow-areas` | A, B, C | Cherche les angles morts d'un document : 7 catégories, 3 gravités, une question par trou ; mode `diff` sur une 2ᵉ passe | rapport, `status: clean` s'il ne reste ni bloquant ni majeur | ne modifie jamais le document |
 | `04-fact-check` | B | Vérifie les affirmations d'un texte (mémoire → code → web en dernier) et le réécrit avec des sources | texte corrigé + `## Sources` + `## Unverified claims` | ne garde rien sans ton accord |
@@ -130,7 +148,7 @@ hypothèses sont séparées ; **rien n'est écrit sans ton accord**.
 
 | Skill | Étape | Rôle | Produit | Lit ou exige |
 | --- | --- | --- | --- | --- |
-| `01-plan` | **D** | Plan par phases : collecte → lecture du code → wireframe ASCII (si UI) → plan | `aidd_docs/tasks/<…>_<feature>/plan.md` + un fichier par phase | la story ou la demande |
+| `01-plan` | **D** | Plan par phases. Depuis 2.7.1 : capture (la source) → explore (lit le code, relève les constats : fichiers, impacts, règles, docs officielles consultées ; te pose les questions bloquantes) → conclude (phases livrables seules, wireframe ASCII pour chaque phase qui construit un écran, validation par script, puis relecture par un sous-agent indépendant) | `aidd_docs/tasks/<…>_<feature>/plan.md` + `phase-<n>.md` | la story ou la demande ; **Node** pour `scripts/validate-plan.cjs` |
 | `02-implement` | **E** | Exécute un plan phase par phase ; statuts `pending → in-progress → implemented` ; **un commit local par tâche validée** | code, tests, commits | un `plan.md` |
 | `03-assert` | **E**, F | Lance les assertions du projet et corrige jusqu'au vert ; facettes architecture (rapport seul) et frontend (navigateur) | verdict pass ou fail | **`aidd_docs/memory/coding-assertions.md`** |
 | `06-test` | E | `test` : trouve ce qui n'est pas testé et écrit les tests ; `test-journey` : parcours dans un **navigateur** | tests | — |
@@ -175,7 +193,9 @@ hypothèses sont séparées ; **rien n'est écrit sans ton accord**.
 
 ## Points d'attention
 
-1. **Préparer `coding-assertions.md` et `vcs.md`** pendant l'étape 0. Sans eux,
+1. **Préparer `coding-assertions.md` et `vcs.md`** pendant l'étape 0 (dans
+   `vcs.md`, remplir aussi les lignes **Tickets** : GitHub Issues via `gh`, et
+   **Hooks** : `protect-main.sh` bloque `main`). Sans eux,
    `03-assert` ne sait pas quoi lancer, et `01-commit` et `02-pull-request`
    appliquent leurs conventions par défaut au lieu des nôtres (branches
    `claude/*`, messages en anglais, PR draft).
