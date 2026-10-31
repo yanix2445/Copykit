@@ -15,6 +15,7 @@ n'a été lancé pour coder.
 | [04-plugin-apple-xcode.md](04-plugin-apple-xcode.md) | Le plugin **officiel Apple** `xcode-integration` livré avec Xcode 27.1 (15 skills + serveur MCP Xcode), et l'analyse des plugins de Paul Hudson |
 | [05-architectures.md](05-architectures.md) | MVC, MVVM, MV, TCA, VIPER, Clean Architecture, organisation par feature : ce qu'Apple conseille et la recommandation pour CopyKit |
 | [06-arborescence-et-nommage.md](06-arborescence-et-nommage.md) | L'arborescence complète des dossiers et fichiers, les suffixes par rôle et les règles d'import entre couches |
+| [07-catalogue-skills-aidd.md](07-catalogue-skills-aidd.md) | **Les 47 skills AIDD installés**, un par un : étape, rôle, fichiers produits, prérequis, enchaînements |
 
 Pour démarrer : [03-stack-et-architecture.md](03-stack-et-architecture.md),
 puis [02-workflow-macos.md](02-workflow-macos.md).

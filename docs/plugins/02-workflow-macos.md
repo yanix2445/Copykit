@@ -104,6 +104,9 @@ flowchart TD
 | 0.3 | `/aidd-context:00-onboard` | **Point d'entrée officiel d'AIDD** : il lit le projet, le classe (ici « existant » : du code, pas de mémoire), puis propose l'étape suivante dans un menu. Il n'exécute rien sans ta réponse | ⏳ à faire |
 | 0.4 | `/aidd-context:02-project-memory setup`, proposé par l'onboarding | `aidd_docs/memory/` : architecture, conventions, décisions | ⏳ à faire |
 | 0.5 | Brancher la mémoire (étape `sync` du même skill) | bloc mémoire dans `CLAUDE.md`, tenu à jour par le hook `SessionStart` | ⏳ à faire |
+| 0.6 | Vérifier deux fichiers de la mémoire : `coding-assertions.md` (les commandes `xcodebuild … test` que lance `aidd-dev:03-assert`) et `vcs.md` (branches `claude/*`, commits en anglais, PR draft, lus par `aidd-vcs:01-commit` et `02-pull-request`) | les skills AIDD appliquent nos conventions | ⏳ à faire |
+| 0.7 | Confirmer les capacités `desktop`, `database` et `ui` pendant le `setup` | leur détection automatique vise surtout le web | ⏳ à faire |
+| 0.8 | Déclarer `aidd_docs/` comme dossier synchronisé sans cible | visible dans Xcode | ⏳ à faire |
 
 À tout moment par la suite, relancer `/aidd-context:00-onboard` pour savoir où
 on en est : il suit le flux d'une feature (brainstorm, spec, plan, implement,

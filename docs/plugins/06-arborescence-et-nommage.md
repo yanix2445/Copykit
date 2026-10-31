@@ -163,16 +163,23 @@ CopyKit/                                   racine du dépôt git
 ├── TestPlans/
 │   └── CopyKit.xctestplan                 unitaires + UI, clair et sombre, couverture
 │
-├── docs/                                  documentation (dossier synchronisé, sans cible)
-│   ├── BRIEF.md                           brief produit
-│   ├── STORIES.md                         backlog
+├── docs/                                  notre documentation (dossier synchronisé, sans cible)
+│   ├── DESIGN.md                          conception de l'app (forme, pages, commandes)
 │   ├── DESIGN-SYSTEM.md                   quel token utiliser quand
 │   ├── adr/                               décisions d'architecture
 │   │   └── 0001-architecture-mv-feature-core.md
 │   └── plugins/                           cette documentation
 │
-└── aidd_docs/                             mémoire et tâches gérées par AIDD
+└── aidd_docs/                             tout ce que produit AIDD (dossier synchronisé, sans cible)
+    ├── memory/                            mémoire projet
+    ├── product/                           Product Brief
+    ├── backlog/                           epics, stories, spikes, defects, tasks
+    └── tasks/                             brainstorms, plans, revues, audits
 ```
+
+Le brief et les stories sont produits par les skills `aidd-pm` dans
+`aidd_docs/`, jamais recopiés dans `docs/`. Détail des chemins :
+[07-catalogue-skills-aidd.md](07-catalogue-skills-aidd.md#où-aidd-range-ses-fichiers).
 
 ---
 
