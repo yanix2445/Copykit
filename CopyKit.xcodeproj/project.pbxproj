@@ -31,6 +31,7 @@
 		4496EC6516EF41657E3E6FF7 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 		53A9EE6999BDF6DCDCC2DC04 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C947792184B02EAE55E8BCFE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		06B65629EE4A89B1C31E4384 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +53,11 @@
 		090DD1E03095ABA400CD928A /* docs */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = docs;
+			sourceTree = "<group>";
+		};
+		1C301A38BE0ACB967F0A8862 /* aidd_docs */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = aidd_docs;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,7 +88,9 @@
 				53A9EE6999BDF6DCDCC2DC04 /* README.md */,
 				1689DCCCC4EB3E457E134C51 /* LICENSE */,
 				C947792184B02EAE55E8BCFE /* .gitignore */,
+				06B65629EE4A89B1C31E4384 /* AGENTS.md */,
 				090DD1E03095ABA400CD928A /* docs */,
+				1C301A38BE0ACB967F0A8862 /* aidd_docs */,
 				090DD19A3095904F00CD928A /* CopyKit */,
 				090DD1AA3095905300CD928A /* CopyKitTests */,
 				090DD1B43095905300CD928A /* CopyKitUITests */,
